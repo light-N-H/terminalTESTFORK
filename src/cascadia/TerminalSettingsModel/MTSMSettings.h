@@ -183,4 +183,4 @@ Author(s):
 #define MTSM_THEME_PANE_SETTINGS(X)                                                                             \
     X(winrt::Microsoft::Terminal::Settings::Model::ThemeColor, ActiveBorderColor, "activeBorderColor", nullptr) \
     X(winrt::Microsoft::Terminal::Settings::Model::ThemeColor, InactiveBorderColor, "inactiveBorderColor", nullptr)             \
-    X(winrt::Microsoft::Terminal::Settings::Model::ThemeColor, BorderColor, "bordeColor", nullptr)
+    X(winrt::Microsoft::Terminal::Settings::Model::ThemeColor, BorderColor, "borderColor", nullptr)
