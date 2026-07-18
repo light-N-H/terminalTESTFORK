@@ -16,6 +16,7 @@
 #include "TabTheme.g.cpp"
 #include "ThemePair.g.cpp"
 #include "Theme.g.cpp"
+#include "PaneTheme.g.cpp"
 
 using namespace ::Microsoft::Console;
 using namespace Microsoft::Terminal::Settings::Model;
@@ -60,6 +61,7 @@ THEME_OBJECT(WindowTheme, MTSM_THEME_WINDOW_SETTINGS);
 THEME_OBJECT(SettingsTheme, MTSM_THEME_SETTINGS_SETTINGS);
 THEME_OBJECT(TabRowTheme, MTSM_THEME_TABROW_SETTINGS);
 THEME_OBJECT(TabTheme, MTSM_THEME_TAB_SETTINGS);
+THEME_OBJECT(PaneTheme, MTSM_THEME_PANE_SETTINGS);
 
 #undef THEME_SETTINGS_COPY
 #undef THEME_SETTINGS_TO_JSON
@@ -129,7 +131,6 @@ winrt::WUX::Media::Brush ThemeColor::Evaluate(const winrt::WUX::ResourceDictiona
                                               const bool forTitlebar)
 {
     static const auto accentColorKey{ winrt::box_value(L"SystemAccentColor") };
-
     switch (ColorType())
     {
     case ThemeColorType::Accent:
@@ -139,9 +140,8 @@ winrt::WUX::Media::Brush ThemeColor::Evaluate(const winrt::WUX::ResourceDictiona
         // much of this logic is rapidly changing. We're not gonna mess with
         // that, since it seems there's no good way to reverse engineer that.
         til::color accentColor = forTitlebar ?
-                                     _getAccentColorForTitlebar() :
+            _getAccentColorForTitlebar() :
                                      til::color{ winrt::unbox_value<winrt::Windows::UI::Color>(res.Lookup(accentColorKey)) };
-
         const winrt::WUX::Media::SolidColorBrush accentBrush{ accentColor };
         // _getAccentColorForTitlebar should have already filled the alpha
         // channel in with 255
@@ -172,7 +172,7 @@ winrt::WUX::Media::Brush ThemeColor::Evaluate(const winrt::WUX::ResourceDictiona
 //   tab.unfocusedBackground property.
 uint8_t ThemeColor::UnfocusedTabOpacity() const noexcept
 {
-    switch (ColorType())
+    switch (ColorType()) 
     {
     case ThemeColorType::Accent:
     case ThemeColorType::TerminalBackground:
@@ -224,6 +224,7 @@ THEME_OBJECT_CONVERTER(winrt::Microsoft::Terminal::Settings::Model, WindowTheme,
 THEME_OBJECT_CONVERTER(winrt::Microsoft::Terminal::Settings::Model, SettingsTheme, MTSM_THEME_SETTINGS_SETTINGS);
 THEME_OBJECT_CONVERTER(winrt::Microsoft::Terminal::Settings::Model, TabRowTheme, MTSM_THEME_TABROW_SETTINGS);
 THEME_OBJECT_CONVERTER(winrt::Microsoft::Terminal::Settings::Model, TabTheme, MTSM_THEME_TAB_SETTINGS);
+THEME_OBJECT_CONVERTER(winrt::Microsoft::Terminal::Settings::Model, PaneTheme, MTSM_THEME_PANE_SETTINGS);
 
 #undef THEME_SETTINGS_FROM_JSON
 #undef THEME_SETTINGS_TO_JSON
@@ -250,6 +251,11 @@ winrt::com_ptr<Theme> Theme::Copy() const
     {
         theme->_TabRow = *winrt::get_self<implementation::TabRowTheme>(_TabRow)->Copy();
     }
+    if (_Pane)
+    {
+        theme->_Pane = *winrt::get_self<implementation::PaneTheme>(_Pane)->Copy(); 
+    }
+    
     if (_Tab)
     {
         theme->_Tab = *winrt::get_self<implementation::TabTheme>(_Tab)->Copy();
@@ -333,6 +339,12 @@ void Theme::LogSettingChanges(std::set<std::string>& changes, const std::string_
         const auto obj = _Tab;
         const auto outerJsonKey = outerTabJsonKey;
         MTSM_THEME_TAB_SETTINGS(LOG_IF_SET)
+    }
+    
+    if(isPaneSet){
+        const auto obj = _Pane;
+        const auto outerJsonKey = outerTabJsonKey;
+        MTSM_THEME_PANE_SETTINGS(LOG_IF_SET)
     }
 #undef LOG_IF_SET
 #undef GENERATE_SET_CHECK_AND_JSON_KEYS

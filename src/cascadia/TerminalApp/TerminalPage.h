@@ -599,7 +599,7 @@ namespace winrt::TerminalApp::implementation
 
         void _updateThemeColors();
         void _updateAllTabCloseButtons();
-        void _updatePaneResources(const winrt::Windows::UI::Xaml::ElementTheme& requestedTheme);
+        void _updatePaneResources(const winrt::Windows::UI::Xaml::ElementTheme& requestedTheme, const winrt::Windows::UI::Xaml::Media::Brush& terminalBrush);
 
         safe_void_coroutine _ControlCompletionsChangedHandler(const winrt::Windows::Foundation::IInspectable sender, const winrt::Microsoft::Terminal::Control::CompletionsChangedEventArgs args);
 

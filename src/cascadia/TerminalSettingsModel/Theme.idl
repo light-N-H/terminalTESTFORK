@@ -58,7 +58,8 @@ namespace Microsoft.Terminal.Settings.Model
         Windows.UI.Xaml.ElementTheme RequestedTheme { get; };
     }
 
-    runtimeclass WindowTheme {
+    runtimeclass WindowTheme
+    {
         Windows.UI.Xaml.ElementTheme RequestedTheme { get; };
         Boolean UseMica { get; };
         Boolean RainbowFrame { get; };
@@ -67,9 +68,16 @@ namespace Microsoft.Terminal.Settings.Model
         ThemeColor UnfocusedFrame { get; };
     }
 
-    runtimeclass TabRowTheme {
+    runtimeclass TabRowTheme
+    {
         ThemeColor Background { get; };
         ThemeColor UnfocusedBackground { get; };
+    }
+    runtimeclass PaneTheme
+    {
+        ThemeColor BorderColor{ get; };
+        ThemeColor InactiveBorderColor { get; };
+        ThemeColor ActiveBorderColor { get; };
     }
 
     runtimeclass TabTheme {
@@ -96,6 +104,9 @@ namespace Microsoft.Terminal.Settings.Model
 
         // tab.* Namespace
         TabTheme Tab { get; };
+
+        // pane.* Namespace
+        PaneTheme Pane { get; };
 
         // A helper for retrieving the RequestedTheme out of the window property
         Windows.UI.Xaml.ElementTheme RequestedTheme { get; };

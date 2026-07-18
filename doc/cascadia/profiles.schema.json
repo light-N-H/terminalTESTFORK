@@ -2020,6 +2020,24 @@
         }
       }
     },
+    "PaneTheme": {
+      "additionalProperties": false,
+      "description": "A set of properties for customizing the appearance of the panes",
+      "properties": {
+        "activeBorderColor": {
+          "description": "The color of the pane border when the pane is active",
+          "$ref": "#/$defs/ThemeColor"
+        },
+        "inactiveBorderColor": {
+          "description": "The color of the pane border when the pane is Inactive",
+          "$ref": "#/$defs/ThemeColor"
+        },
+        "borderColor": {
+          "description": "The color of the pane border ",
+          "$ref": "#/$defs/ThemeColor"
+        }
+      }
+    },
     "TabRowTheme": {
       "additionalProperties": false,
       "description": "A set of properties for customizing the appearance of the tab row",
@@ -2061,17 +2079,19 @@
           "description": "The color of the window frame when the window is inactive. This only works on Windows 11",
           "$ref": "#/$defs/ThemeColor"
         },
-        "unfocusedFrame": {
-          "description": "The color of the window frame when the window is inactive. This only works on Windows 11",
-          "$ref": "#/$defs/ThemeColor"
-        },
-        "showWorkspacesButton": {
-          "description": "When set to true, the workspaces button will be shown in the tab row.",
-          "type": "boolean",
-          "default": true
+        "pane": {
+          "$ref": "#/$defs/PaneTheme",
+          "unfocusedFrame": {
+            "description": "The color of the window frame when the window is inactive. This only works on Windows 11",
+            "$ref": "#/$defs/ThemeColor"
+          },
+          "showWorkspacesButton": {
+            "description": "When set to true, the workspaces button will be shown in the tab row.",
+            "type": "boolean",
+            "default": true
+          }
         }
-      }
-    },
+      },
     "Theme": {
       "additionalProperties": false,
       "description": "A set of properties for customizing the appearance of the window. This controls things like the titlebar, the tabs, the application theme.",
